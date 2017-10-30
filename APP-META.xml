@@ -3,7 +3,7 @@
     <id>http://company.example/app/Office365Adoption</id>
     <name>Office365Adoption</name>
     <version>1.0</version>
-    <release>19</release>
+    <release>21</release>
     <vendor>
         <name>Company, Inc</name>
         <homepage/>
@@ -15,7 +15,7 @@
 	<presentation>
 		<icon path="images/icon.png"/>
 		<changelog>
-			<version release="18" version="1.0">
+			<version release="21" version="1.0">
 				<entry>Initial release.</entry>
 			</version>
 		</changelog>

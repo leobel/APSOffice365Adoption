@@ -52,21 +52,33 @@ class management extends \APS\ResourceBase
     }
     
     public function getStatus(){
-        $service_url = 'https://localhost:44300/aps/b743b360-872c-43ba-a7a5-4266d38360ce';
-        $curl = curl_init($service_url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            return false;
-        }
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, array(CURLOPT_URL => "https://localhost:44300/aps/b743b360-872c-43ba-a7a5-4266d38360cf",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => 0));
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
-        $decoded = json_decode($curl_response);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            return false;
+        
+        if ($err) {
+            return 'undefined';
+        } else {
+            if ($httpcode === 404) {
+                return 'not_found';
+            }
+            else{
+                return $response ? 'subscribed' : 'unsubcribed';
+            }
         }
-        return $decoded->response;
     }
 }
 
