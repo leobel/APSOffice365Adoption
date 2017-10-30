@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="/aps/2/ui/runtime/client/aps/aps.js"></script>
+	<script>
+		require([
+			"aps/ResourceStore",
+			"dojo/when",
+			"dijit/registry",
+			"dojox/mvc/at",
+			"dojox/mvc/getStateful",
+			"aps/load",
+			"aps/Message",
+			"aps/xhr",
+			"aps/ready!"
+		], function (Store, when, registry, at, getStateful, load, Message, xhr) {
+			function displayError(err) {
+				var errData = {};
+				/* Getting the error message */
+				try {errData = eval("(" + err.response.text + ")")} catch (e){};
+				aps.apsc.cancelProcessing();
+
+				var messages = registry.byId("page").get("messageList");
+				/* Remove all current messages from the screen */
+				messages.removeAll();
+				/* And display the new message */
+				messages.addChild(new Message({description: err + (errData.message ?
+						"<br />" + errData.message : ""), type: "error"}));
+			};
+			
+			var model = getStateful(aps.context.vars.management);
+			
+			var checkStatus = function(){
+				
+				
+			}
+			
+			/* Define a handler for the *SingUp* button click */
+			var signup = function() {
+				
+			  /* Start the process of signUp on Office 365 Adoption */
+			  /* var form = document.createElement("form");
+			  form.setAttribute("method", "post");
+			  form.setAttribute("action", "https://localhost:44300/signup/index");
+			  form.setAttribute("target", "_blank");
+			  
+			  var input = document.createElement("input");
+			  input.setAttribute("subscription", model.aps.id);
+			  
+			  form.appendChild(input);
+			  //document.body.appendChild(form);
+			  form.submit(); */
+			  window.open("https://localhost:44300/signup/apsindex/" + model.aps.id, '_blank');
+			  
+			  /* Switches the button back to the enabled state */
+			  registry.byId('signup').cancel();
+			};
+
+			/* Define a handler for the *Unsubscribe* button click */
+			var unsubscribe = function(){
+				
+			};
+			
+			/* Create widgets */
+			var widgets = ["aps/PageContainer", { id: 'page' }, [
+				[ "aps/Output", {
+	                content:    "Subscription ID: ${subscription}",
+	                subscription:       at(model.aps, 'id')
+	            }],
+	            ["aps/Hr", {visible: true}],
+				["aps/Button", {
+					id: 	'signup',
+					label: 'Sign Up',
+					onClick: signup
+				}],
+				["aps/Button", {
+					id: 	'unsubscribe',
+					label: 'Unsubscribe',
+					onClick: unsubscribe
+				}]
+			]];
+			load(widgets).then(function(){
+				/* Once the widgets are created, create the widget processing logic */
+				var sp = registry.byId("signup");
+				var unsubscribe = registry.byId("unsubscribe");
+				
+				when(xhr("/aps/2/resources/" + model.aps.id + "/status", {method: "GET", handleAs: "text"}), 
+						function(result){
+							alert(result);
+							unsubscribe.set("visible", false);
+						}, displayError);
+				
+			}).otherwise(displayError);
+		});
+	</script>
+</head>
+<body>
+</body>
+</html>

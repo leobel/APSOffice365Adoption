@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<aps:APSPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aps="http://aps-standard.org/ns/2" projectName="Office365Adoption">
+  <internalTypes id="http://company.example/app/Office365Adoption/management" version="1.0" relations="//@relations.0/@source" name="management" implements="//@typesFromLibrary.1">
+    <properties name="status" type="string" description="Subscription Status" required="true" readonly="true"/>
+    <operations name="status" verb="GET" path="/status"/>
+  </internalTypes>
+  <internalTypes id="http://company.example/app/Office365Adoption/application" version="1.0" relations="//@relations.0/@target" application="true" name="application" implements="//@typesFromLibrary.2 //@externalTypes.0">
+    <operations name="getInitWizardConfig" verb="GET" path="/getInitWizardConfig"/>
+    <operations name="testConnection" verb="GET" path="/testConnection"/>
+  </internalTypes>
+  <typesFromLibrary id="http://aps-standard.org/types/core/resource" version="1.0" name="Resource">
+    <operations name="provision" verb="POST" path="/"/>
+    <operations name="retrieve" verb="GET" path="/"/>
+    <operations name="configure" verb="PUT" path="/"/>
+    <operations name="unprovision" verb="DELETE" path="/"/>
+    <structures name="Counter">
+      <properties name="usage" type="integer"/>
+      <properties name="limit" type="integer"/>
+    </structures>
+    <structures name="Limit">
+      <properties name="limit" type="integer"/>
+    </structures>
+    <structures name="Usage">
+      <properties name="usage" type="integer"/>
+    </structures>
+    <structures name="NotificationSource">
+      <properties name="type" type="string" description="APS Type of source resources"/>
+      <properties name="id" type="string" description="Resource which is source of event"/>
+    </structures>
+    <structures name="Notification">
+      <properties name="type" type="string" description="Type of event (URI)" required="true"/>
+      <properties name="time" type="string" description="Date-time when event happens"/>
+      <properties name="serial" type="number" description="Serial number of event (incrementing)"/>
+      <properties name="source" type="NotificationSource" description="Resource originating the event"/>
+    </structures>
+  </typesFromLibrary>
+  <typesFromLibrary id="http://aps-standard.org/types/core/subscription/service" version="1.0" name="subscriptionService" implements="//@typesFromLibrary.0"/>
+  <typesFromLibrary id="http://aps-standard.org/types/core/application" version="1.0" name="Application" implements="//@typesFromLibrary.0">
+    <operations name="upgrade" verb="POST" path="/upgrade"/>
+  </typesFromLibrary>
+  <externalTypes id="http://odin.com/init-wizard/config" version="1.0"/>
+  <relations>
+    <source type="//@internalTypes.0" name="application" required="true"/>
+    <target type="//@internalTypes.1" name="managements" collection="true"/>
+  </relations>
+</aps:APSPackage>

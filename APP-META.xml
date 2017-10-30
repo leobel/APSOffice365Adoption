@@ -1,0 +1,73 @@
+<application packaged="2014-10-02T18:54:14" version="2.0" xmlns="http://aps-standard.org/ns/2">
+
+    <id>http://company.example/app/Office365Adoption</id>
+    <name>Office365Adoption</name>
+    <version>1.0</version>
+    <release>19</release>
+    <vendor>
+        <name>Company, Inc</name>
+        <homepage/>
+    </vendor>
+    <packager>
+        <name>Company, Inc</name>
+        <homepage/>
+    </packager>
+	<presentation>
+		<icon path="images/icon.png"/>
+		<changelog>
+			<version release="18" version="1.0">
+				<entry>Initial release.</entry>
+			</version>
+		</changelog>
+		<categories>
+			<category>Samples</category>
+		</categories>
+
+ 		<navigation id="pcp" label="Provider Sample">
+			<var name="uiview_pcp" type-id="http://company.example/app/Office365Adoption/application/1.0"/>
+			<plugs-to id="http://www.aps-standard.org/ui/application"/>
+
+			<item id="provider_sample" label="Provider Sample">
+				<view id="sample_grid" label="Sample Grid">
+				</view>
+			</item>
+		</navigation>
+		<navigation id="ccp" label="Office365 Adoption Management">
+			<var name="management" type-id="http://company.example/app/Office365Adoption/management/1.0"  />
+			<plugs-to id="http://www.aps-standard.org/ui/service" />
+			<item id="subscription" label="Office365 Adoption Management">
+				<view id="subscription" label="Office365 Adoption Subscription" src="ui/subscription.html"></view>
+			</item>
+		</navigation>
+	</presentation>
+
+    <license-agreement>
+        <free/>
+        <text>
+            <name>End-User License Agreement</name>
+            <url>http://opensource.org/licenses/bsd-license</url>
+        </text>
+    </license-agreement>
+	<upgrade match="version=ge=1.0, release=ge=0"/>
+	<service id="applications">
+		<schema path="schemas/application.schema.gen"/>
+		<code engine="php" path="scripts/application.php"/>
+
+		<presentation>
+			<name>Office 365 Demo Application</name>
+			<summary>Office 365 Demo Application</summary>
+			<infolinks>
+				<link class="deployment-guide" href="http://parallels.com/link-to-deployment-guide">Deployment Guide</link>
+				<link class="support" href="http://parallels.com/link-to-support">Support Guide</link>
+			</infolinks>
+		</presentation>
+	</service>
+	<service id="managements">
+		<code engine="php" path="scripts/managements.php"></code>
+		
+		<presentation>
+			<name>Office 365 Adoption Demo Management</name>
+			<summary>Office 365 Adoption Demo management environemnt</summary>
+		</presentation>
+	</service>
+</application>

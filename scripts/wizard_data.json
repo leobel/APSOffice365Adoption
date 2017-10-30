@@ -1,0 +1,46 @@
+{
+	"defaults": {
+		"appId": "http://company.example/app/Office365Adoption/application/1.0",
+		"apsName": "Office 365 Adoption Demo", 
+		"apsVersion": "2.2",
+		"apsResources": [],
+		"resourceTypes": [
+	  		{
+	  			"name": "Office 365 Adoption Demo - App REF",
+	  			"id": -500001,
+	  			"resClass": "rc.saas.service.link",
+	  			"required": true,
+	  			"actParams": {
+		  			"app_id": "idOAID",
+		  			"resource_uid": "idglobals"
+	  			}
+	  		},
+		    {
+				"name": "Office 365 Adoption Demo - Management Environment", 
+				"id": -500002, 
+				"resClass": "rc.saas.service", 
+				"required": true, 
+				"actParams": {
+					 "service_id": "managements",
+					 "autoprovide_service": 1
+				}
+			}
+		], 
+	    "serviceTemplate": {
+			"id": -600001,
+			"name": "Simplest Office 365 Adoption demo services", 
+			"resources": [
+				{
+					"limit": 1, 
+					"unlimited": false, 
+					"rtID": -500001
+				}, 
+				{
+					"limit": 1, 
+					"unlimited": false, 
+					"rtID": -500002
+				}
+			]
+		}
+	}
+}
